@@ -35,6 +35,21 @@ def main():
         fuel_icon_active, fuel_icon_inactive = load_icon(
             icon_size, "assets/low-fuel-light.png"
         )
+        coolant_icon_active, coolant_icon_inactive = load_icon(
+            icon_size, "assets/coolant-temperature-light.png"
+        )
+        oil_icon_active, oil_icon_inactive = load_icon(
+            icon_size, "assets/oil-pressure-light.png"
+        )
+        engine_icon_active, engine_icon_inactive = load_icon(
+            icon_size, "assets/check-engine-light.png"
+        )
+        abs_icon_active, abs_icon_inactive = load_icon(
+            icon_size, "assets/abs-warning-light.png"
+        )
+        battery_icon_active, battery_icon_inactive = load_icon(
+            icon_size, "assets/battery-light.png"
+        )
         font = pygame.font.SysFont("DejaVu Sans", available_text_height)
 
         indicators = [
@@ -46,6 +61,31 @@ def main():
             {
                 "icon_active": fuel_icon_active,
                 "icon_inactive": fuel_icon_inactive,
+                "active": True,
+            },
+            {
+                "icon_active": coolant_icon_active,
+                "icon_inactive": coolant_icon_inactive,
+                "active": True,
+            },
+            {
+                "icon_active": oil_icon_active,
+                "icon_inactive": oil_icon_inactive,
+                "active": True,
+            },
+            {
+                "icon_active": engine_icon_active,
+                "icon_inactive": engine_icon_inactive,
+                "active": True,
+            },
+            {
+                "icon_active": abs_icon_active,
+                "icon_inactive": abs_icon_inactive,
+                "active": True,
+            },
+            {
+                "icon_active": battery_icon_active,
+                "icon_inactive": battery_icon_inactive,
                 "active": True,
             },
         ]

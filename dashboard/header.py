@@ -1,13 +1,19 @@
+import datetime
+
 import pygame
 
-from dashboard.colors import BG, BORDER
+from dashboard.colors import BG, BORDER, GREY
 from dashboard.screen_settings import DIVIDER_WIDTH, HEADER_HEIGHT
 
-PANEL = (16, 20, 30)
+
+def slot_center_x(slot: int, slot_w: int) -> int:
+    return slot * slot_w + slot_w // 2
 
 
 def draw_header(
-    surface: pygame.Surface, font: pygame.font.Font, indicators: list[dict]
+    surface: pygame.Surface,
+    font: pygame.font.Font,
+    indicators: list[dict],
 ) -> None:
     w = surface.get_width()
 
@@ -19,12 +25,21 @@ def draw_header(
     content_h = HEADER_HEIGHT - DIVIDER_WIDTH
     center_y = content_h // 2
 
-    total_slots = len(indicators)
+    total_slots = 8
     slot_w = w // total_slots
 
     for i, ind in enumerate(indicators):
         icon = ind["icon_active"] if ind["active"] else ind["icon_inactive"]
-        slot_center_x = slot_w * i + slot_w // 2
-        icon_x = slot_center_x - icon.get_width() // 2
-        icon_y = center_y - icon.get_height() // 2
-        surface.blit(icon, (icon_x, icon_y))
+        ix = slot_center_x(i, slot_w) - icon.get_width() // 2
+        iy = center_y - icon.get_height() // 2
+        surface.blit(icon, (ix, iy))
+
+    time_str = datetime.datetime.now().strftime("%-H:%M %p")
+    time_surf = font.render(time_str, True, GREY)
+    surface.blit(
+        time_surf,
+        (
+            slot_center_x(7, slot_w) - time_surf.get_width() // 2,
+            center_y - time_surf.get_height() // 2,
+        ),
+    )
