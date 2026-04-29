@@ -32,8 +32,24 @@ def main():
         tc_icon_active, tc_icon_inactive = load_icon(
             icon_size, "assets/traction-control-light.png"
         )
+        fuel_icon_active, fuel_icon_inactive = load_icon(
+            icon_size, "assets/low-fuel-light.png"
+        )
         font = pygame.font.SysFont("DejaVu Sans", available_text_height)
-        draw_header(screen, font, tc_active, tc_icon_active, tc_icon_inactive)
+
+        indicators = [
+            {
+                "icon_active": tc_icon_active,
+                "icon_inactive": tc_icon_inactive,
+                "active": tc_active,
+            },
+            {
+                "icon_active": fuel_icon_active,
+                "icon_inactive": fuel_icon_inactive,
+                "active": True,
+            },
+        ]
+        draw_header(screen, font, indicators)
 
         pygame.display.flip()
 

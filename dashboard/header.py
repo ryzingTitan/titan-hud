@@ -1,17 +1,13 @@
 import pygame
 
 from dashboard.colors import BG, BORDER
-from dashboard.screen_settings import DIVIDER_WIDTH, HEADER_HEIGHT, SPACING
+from dashboard.screen_settings import DIVIDER_WIDTH, HEADER_HEIGHT
 
 PANEL = (16, 20, 30)
 
 
 def draw_header(
-    surface: pygame.Surface,
-    font: pygame.font.Font,
-    tc_active: bool,
-    tc_icon_active: pygame.Surface,
-    tc_icon_inactive: pygame.Surface,
+    surface: pygame.Surface, font: pygame.font.Font, indicators: list[dict]
 ) -> None:
     w = surface.get_width()
 
@@ -23,8 +19,12 @@ def draw_header(
     content_h = HEADER_HEIGHT - DIVIDER_WIDTH
     center_y = content_h // 2
 
-    icon = tc_icon_active if tc_active else tc_icon_inactive
-    icon_margin = SPACING * 2
-    icon_x = icon_margin
-    icon_y = center_y - icon.get_height() // 2
-    surface.blit(icon, (icon_x, icon_y))
+    total_slots = len(indicators)
+    slot_w = w // total_slots
+
+    for i, ind in enumerate(indicators):
+        icon = ind["icon_active"] if ind["active"] else ind["icon_inactive"]
+        slot_center_x = slot_w * i + slot_w // 2
+        icon_x = slot_center_x - icon.get_width() // 2
+        icon_y = center_y - icon.get_height() // 2
+        surface.blit(icon, (icon_x, icon_y))
