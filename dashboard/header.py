@@ -34,7 +34,7 @@ def draw_header(
         iy = center_y - icon.get_height() // 2
         surface.blit(icon, (ix, iy))
 
-    time_str = datetime.datetime.now().strftime("%-H:%M %p")
+    time_str = datetime.datetime.now().strftime("%-I:%M")
     time_surf = font.render(time_str, True, GREY)
     surface.blit(
         time_surf,
