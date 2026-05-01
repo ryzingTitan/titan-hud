@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+import yaml
 
 from dashboard.configuration.colors import BACKGROUND
 from dashboard.configuration.screen_settings import (
@@ -12,6 +13,7 @@ from dashboard.configuration.screen_settings import (
     WIDTH,
 )
 from dashboard.elements.footer import draw_footer
+from dashboard.elements.tachometer import draw_tachometer
 from dashboard.helpers.load_icons import load_icons
 
 
@@ -22,7 +24,14 @@ def main():
     footer_text_height = FOOTER_HEIGHT - DIVIDER_WIDTH - (SPACING * 2)
     icons = load_icons(footer_text_height)
     footer_font = pygame.font.Font("assets/fonts/InterVariable.ttf", footer_text_height)
+    rpm_font = pygame.font.Font("assets/fonts/InterVariable.ttf", 18)
 
+    with open("config.yaml") as f:
+        config = yaml.safe_load(f)
+    rpm_max = config["rpm_max"]
+    rpm_redline = config["rpm_redline"]
+
+    fake_rpm = 4500
     tc_active = True
 
     while True:
@@ -35,8 +44,11 @@ def main():
                 sys.exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_t:
                 tc_active = not tc_active
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                fake_rpm = (fake_rpm + 1000) % (rpm_max + 1000)
 
         screen.fill(BACKGROUND)
+        draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
 
         indicators = [
             {
