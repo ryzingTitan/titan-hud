@@ -5,13 +5,13 @@ import pygame
 from dashboard.configuration.colors import BACKGROUND
 from dashboard.configuration.screen_settings import (
     DIVIDER_WIDTH,
+    FOOTER_HEIGHT,
     FPS,
-    HEADER_HEIGHT,
     HEIGHT,
     SPACING,
     WIDTH,
 )
-from dashboard.elements.header import draw_header
+from dashboard.elements.footer import draw_footer
 from dashboard.helpers.load_icons import load_icons
 
 
@@ -19,9 +19,9 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
-    available_text_height = HEADER_HEIGHT - DIVIDER_WIDTH - (SPACING * 2)
-    icons = load_icons(available_text_height)
-    font = pygame.font.Font("assets/fonts/InterVariable.ttf", available_text_height)
+    footer_text_height = FOOTER_HEIGHT - DIVIDER_WIDTH - (SPACING * 2)
+    icons = load_icons(footer_text_height)
+    footer_font = pygame.font.Font("assets/fonts/InterVariable.ttf", footer_text_height)
 
     tc_active = True
 
@@ -75,7 +75,7 @@ def main():
                 "active": True,
             },
         ]
-        draw_header(screen, font, indicators)
+        draw_footer(screen, footer_font, indicators)
         pygame.display.flip()
         clock.tick(FPS)
 

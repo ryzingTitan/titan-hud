@@ -6,6 +6,6 @@ def __pct_to_px(percent: float, dimension: int) -> int:
 WIDTH = 1280
 HEIGHT = 720
 FPS = 60
-HEADER_HEIGHT = __pct_to_px(6, HEIGHT)
+FOOTER_HEIGHT = __pct_to_px(10, HEIGHT)
 DIVIDER_WIDTH = 2
 SPACING = 4

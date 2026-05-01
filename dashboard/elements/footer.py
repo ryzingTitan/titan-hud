@@ -3,23 +3,30 @@ import datetime
 import pygame
 
 from dashboard.configuration.colors import CYAN, MAGENTA
-from dashboard.configuration.screen_settings import DIVIDER_WIDTH, HEADER_HEIGHT, WIDTH
+from dashboard.configuration.screen_settings import (
+    DIVIDER_WIDTH,
+    FOOTER_HEIGHT,
+    HEIGHT,
+    WIDTH,
+)
 
 
 def __slot_center_x(slot: int, slot_w: int) -> int:
     return slot * slot_w + slot_w // 2
 
 
-def draw_header(
+def draw_footer(
     surface: pygame.Surface,
     font: pygame.font.Font,
     indicators: list[dict],
 ) -> None:
-    divider_y = HEADER_HEIGHT - DIVIDER_WIDTH
-    pygame.draw.line(surface, MAGENTA, (0, divider_y), (WIDTH, divider_y), DIVIDER_WIDTH)
+    footer_y = HEIGHT - FOOTER_HEIGHT
 
-    content_h = HEADER_HEIGHT - DIVIDER_WIDTH
-    center_y = content_h // 2
+    pygame.draw.line(surface, MAGENTA, (0, footer_y), (WIDTH, footer_y), DIVIDER_WIDTH)
+
+    content_start_y = footer_y + DIVIDER_WIDTH
+    content_h = FOOTER_HEIGHT - DIVIDER_WIDTH
+    center_y = content_start_y + content_h // 2
 
     total_slots = 8
     slot_w = WIDTH // total_slots
