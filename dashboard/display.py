@@ -13,6 +13,7 @@ from dashboard.configuration.screen_settings import (
     WIDTH,
 )
 from dashboard.elements.footer import draw_footer
+from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.tachometer import draw_tachometer
 from dashboard.helpers.load_icons import load_icons
 
@@ -30,6 +31,7 @@ def main():
         config = yaml.safe_load(f)
     rpm_max = config["rpm_max"]
     rpm_redline = config["rpm_redline"]
+    shift_lights = config["shift_lights"]
 
     fake_rpm = 4500
     tc_active = True
@@ -49,6 +51,7 @@ def main():
 
         screen.fill(BACKGROUND)
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
+        draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
 
         indicators = [
             {
