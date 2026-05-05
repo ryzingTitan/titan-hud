@@ -12,6 +12,7 @@ from dashboard.configuration.screen_settings import (
     SPACING,
     WIDTH,
 )
+from dashboard.elements.boost import draw_boost
 from dashboard.elements.footer import draw_footer
 from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
@@ -38,6 +39,7 @@ def main():
 
     fake_rpm = 4500
     fake_speed = 120.0
+    fake_boost = 14.7
     tc_active = True
 
     while True:
@@ -57,6 +59,7 @@ def main():
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
         draw_speedometer(screen, speed_label_font, speed_value_font, fake_speed)
+        draw_boost(screen, speed_label_font, speed_value_font, fake_boost)
 
         indicators = [
             {
