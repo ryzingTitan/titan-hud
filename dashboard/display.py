@@ -14,6 +14,7 @@ from dashboard.configuration.screen_settings import (
 )
 from dashboard.elements.boost import draw_boost
 from dashboard.elements.footer import draw_footer
+from dashboard.elements.oil_pressure import draw_oil_pressure
 from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
 from dashboard.elements.tachometer import draw_tachometer
@@ -40,6 +41,7 @@ def main():
     fake_rpm = 4500
     fake_speed = 120.0
     fake_boost = 14.7
+    fake_oil_pressure = 45.0
     tc_active = True
 
     while True:
@@ -60,6 +62,7 @@ def main():
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
         draw_speedometer(screen, speed_label_font, speed_value_font, fake_speed)
         draw_boost(screen, speed_label_font, speed_value_font, fake_boost)
+        draw_oil_pressure(screen, speed_label_font, speed_value_font, fake_oil_pressure)
 
         indicators = [
             {
