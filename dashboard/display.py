@@ -14,6 +14,7 @@ from dashboard.configuration.screen_settings import (
 )
 from dashboard.elements.boost import draw_boost
 from dashboard.elements.footer import draw_footer
+from dashboard.elements.intake_air_temp import draw_intake_air_temp
 from dashboard.elements.oil_pressure import draw_oil_pressure
 from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
@@ -42,6 +43,7 @@ def main():
     fake_speed = 120.0
     fake_boost = 14.7
     fake_oil_pressure = 45.0
+    fake_intake_air_temp = 95.0
     tc_active = True
 
     while True:
@@ -63,6 +65,7 @@ def main():
         draw_speedometer(screen, speed_label_font, speed_value_font, fake_speed)
         draw_boost(screen, speed_label_font, speed_value_font, fake_boost)
         draw_oil_pressure(screen, speed_label_font, speed_value_font, fake_oil_pressure)
+        draw_intake_air_temp(screen, speed_label_font, speed_value_font, fake_intake_air_temp)
 
         indicators = [
             {
