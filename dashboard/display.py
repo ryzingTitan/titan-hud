@@ -17,6 +17,7 @@ from dashboard.elements.coolant_temp import draw_coolant_temp
 from dashboard.elements.footer import draw_footer
 from dashboard.elements.intake_air_temp import draw_intake_air_temp
 from dashboard.elements.oil_pressure import draw_oil_pressure
+from dashboard.elements.oil_temp import draw_oil_temp
 from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
 from dashboard.elements.tachometer import draw_tachometer
@@ -46,6 +47,7 @@ def main():
     fake_oil_pressure = 45.0
     fake_intake_air_temp = 95.0
     fake_coolant_temp = 190.0
+    fake_oil_temp = 200.0
     tc_active = True
 
     while True:
@@ -69,6 +71,7 @@ def main():
         draw_oil_pressure(screen, speed_label_font, speed_value_font, fake_oil_pressure)
         draw_intake_air_temp(screen, speed_label_font, speed_value_font, fake_intake_air_temp)
         draw_coolant_temp(screen, speed_label_font, speed_value_font, fake_coolant_temp)
+        draw_oil_temp(screen, speed_label_font, speed_value_font, fake_oil_temp)
 
         indicators = [
             {
