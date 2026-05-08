@@ -57,6 +57,7 @@ def main():
     fake_mileage = 123456
     fake_lap_number = 15
     fake_lap_time_seconds = 83.456
+    fake_lap_delta = 0.342
     tc_active = True
 
     while True:
@@ -75,7 +76,9 @@ def main():
         screen.fill(BACKGROUND)
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
-        draw_lap_timer(screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds)
+        draw_lap_timer(
+            screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds, fake_lap_delta
+        )
         draw_afr(screen, speed_label_font, speed_value_font, fake_afr)
         draw_fuel_level(screen, speed_label_font, speed_value_font, fake_fuel_level)
         draw_mileage(screen, speed_label_font, speed_value_font, fake_mileage)

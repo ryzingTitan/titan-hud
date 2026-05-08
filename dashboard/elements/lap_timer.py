@@ -1,6 +1,6 @@
 import pygame
 
-from dashboard.configuration.colors import CYAN, MAGENTA
+from dashboard.configuration.colors import CYAN, GREEN, MAGENTA, RED
 from dashboard.configuration.screen_settings import (
     COLUMN_WIDTH,
     LAP_TIMER_HEIGHT,
@@ -23,6 +23,7 @@ def draw_lap_timer(
     font_value: pygame.font.Font,
     lap_number: int,
     lap_time_seconds: float,
+    delta_seconds: float,
 ) -> None:
     x = COLUMN_WIDTH * _COLUMN_INDEX
     rect = pygame.Rect(x, LAP_TIMER_Y, COLUMN_WIDTH, LAP_TIMER_HEIGHT)
@@ -32,18 +33,23 @@ def draw_lap_timer(
     label_surf = font_label.render(_LABEL, True, pygame.Color(MAGENTA))
     time_surf = font_value.render(_format_lap_time(lap_time_seconds), True, pygame.Color(CYAN))
 
-    gap_inline = 6
-    gap_rows = 4
+    delta_color = GREEN if delta_seconds >= 0 else RED
+    sign = "+" if delta_seconds >= 0 else ""
+    delta_surf = font_value.render(f"{sign}{delta_seconds:.3f}", True, pygame.Color(delta_color))
+
+    gap = 4
     row1_h = max(num_surf.get_height(), label_surf.get_height())
-    combined_h = row1_h + gap_rows + time_surf.get_height()
+    combined_h = row1_h + gap + time_surf.get_height() + gap + delta_surf.get_height()
     start_y = rect.top + (rect.height - combined_h) // 2
 
-    row1_w = num_surf.get_width() + gap_inline + label_surf.get_width()
+    row1_w = num_surf.get_width() + gap + label_surf.get_width()
     row1_x = rect.centerx - row1_w // 2
     num_y = start_y + (row1_h - num_surf.get_height()) // 2
     label_y = start_y + (row1_h - label_surf.get_height()) // 2
-    time_y = start_y + row1_h + gap_rows
+    time_y = start_y + row1_h + gap
+    delta_y = time_y + time_surf.get_height() + gap
 
     surface.blit(num_surf, (row1_x, num_y))
-    surface.blit(label_surf, (row1_x + num_surf.get_width() + gap_inline, label_y))
+    surface.blit(label_surf, (row1_x + num_surf.get_width() + gap, label_y))
     surface.blit(time_surf, (rect.centerx - time_surf.get_width() // 2, time_y))
+    surface.blit(delta_surf, (rect.centerx - delta_surf.get_width() // 2, delta_y))
