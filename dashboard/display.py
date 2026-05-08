@@ -18,6 +18,7 @@ from dashboard.elements.coolant_temp import draw_coolant_temp
 from dashboard.elements.footer import draw_footer
 from dashboard.elements.fuel_level import draw_fuel_level
 from dashboard.elements.intake_air_temp import draw_intake_air_temp
+from dashboard.elements.lap_timer import draw_lap_timer
 from dashboard.elements.mileage import draw_mileage
 from dashboard.elements.oil_pressure import draw_oil_pressure
 from dashboard.elements.oil_temp import draw_oil_temp
@@ -54,6 +55,8 @@ def main():
     fake_afr = 14.7
     fake_fuel_level = 75.0
     fake_mileage = 123456
+    fake_lap_number = 15
+    fake_lap_time_seconds = 83.456
     tc_active = True
 
     while True:
@@ -72,6 +75,7 @@ def main():
         screen.fill(BACKGROUND)
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
+        draw_lap_timer(screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds)
         draw_afr(screen, speed_label_font, speed_value_font, fake_afr)
         draw_fuel_level(screen, speed_label_font, speed_value_font, fake_fuel_level)
         draw_mileage(screen, speed_label_font, speed_value_font, fake_mileage)
