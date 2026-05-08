@@ -12,6 +12,7 @@ from dashboard.configuration.screen_settings import (
     SPACING,
     WIDTH,
 )
+from dashboard.elements.afr import draw_afr
 from dashboard.elements.boost import draw_boost
 from dashboard.elements.coolant_temp import draw_coolant_temp
 from dashboard.elements.footer import draw_footer
@@ -48,6 +49,7 @@ def main():
     fake_intake_air_temp = 95.0
     fake_coolant_temp = 190.0
     fake_oil_temp = 200.0
+    fake_afr = 14.7
     tc_active = True
 
     while True:
@@ -66,6 +68,7 @@ def main():
         screen.fill(BACKGROUND)
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
+        draw_afr(screen, speed_label_font, speed_value_font, fake_afr)
         draw_speedometer(screen, speed_label_font, speed_value_font, fake_speed)
         draw_boost(screen, speed_label_font, speed_value_font, fake_boost)
         draw_oil_pressure(screen, speed_label_font, speed_value_font, fake_oil_pressure)
