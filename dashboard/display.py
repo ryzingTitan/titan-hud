@@ -3,8 +3,9 @@ import sys
 import pygame
 import yaml
 
-from dashboard.configuration.colors import BACKGROUND
+from dashboard.configuration.colors import BACKGROUND, CYAN
 from dashboard.configuration.screen_settings import (
+    COLUMN_WIDTH,
     DIVIDER_WIDTH,
     FOOTER_HEIGHT,
     FPS,
@@ -17,6 +18,7 @@ from dashboard.elements.boost import draw_boost
 from dashboard.elements.coolant_temp import draw_coolant_temp
 from dashboard.elements.footer import draw_footer
 from dashboard.elements.fuel_level import draw_fuel_level
+from dashboard.elements.gmeter import draw_gmeter
 from dashboard.elements.intake_air_temp import draw_intake_air_temp
 from dashboard.elements.lap_timer import draw_lap_timer
 from dashboard.elements.mileage import draw_mileage
@@ -26,6 +28,21 @@ from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
 from dashboard.elements.tachometer import draw_tachometer
 from dashboard.helpers.load_icons import load_icons
+
+_DIM_MAGENTA = (140, 0, 140)
+_COL0_PAGE_COUNT = 2
+
+
+def _draw_page_dots(surface: pygame.Surface, current_page: int) -> None:
+    dot_r = 4
+    gap = 10
+    total_w = _COL0_PAGE_COUNT * (dot_r * 2) + (_COL0_PAGE_COUNT - 1) * gap
+    start_x = (COLUMN_WIDTH - total_w) // 2 + dot_r
+    y = HEIGHT - FOOTER_HEIGHT - dot_r - 6
+    for i in range(_COL0_PAGE_COUNT):
+        color = pygame.Color(CYAN) if i == current_page else pygame.Color(*_DIM_MAGENTA)
+        cx = start_x + i * (dot_r * 2 + gap)
+        pygame.draw.circle(surface, color, (cx, y), dot_r)
 
 
 def main():
@@ -58,7 +75,10 @@ def main():
     fake_lap_number = 15
     fake_lap_time_seconds = 83.456
     fake_lap_delta = 0.342
+    fake_lateral_g = 0.3
+    fake_longitudinal_g = 0.5
     tc_active = True
+    column_0_page = 0
 
     while True:
         for event in pygame.event.get():
@@ -72,13 +92,23 @@ def main():
                 tc_active = not tc_active
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 fake_rpm = (fake_rpm + 1000) % (rpm_max + 1000)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                column_0_page = (column_0_page + 1) % _COL0_PAGE_COUNT
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                column_0_page = (column_0_page - 1) % _COL0_PAGE_COUNT
 
         screen.fill(BACKGROUND)
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
-        draw_lap_timer(
-            screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds, fake_lap_delta
-        )
+
+        if column_0_page == 0:
+            draw_lap_timer(
+                screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds, fake_lap_delta
+            )
+        else:
+            draw_gmeter(screen, speed_label_font, fake_lateral_g, fake_longitudinal_g)
+        _draw_page_dots(screen, column_0_page)
+
         draw_afr(screen, speed_label_font, speed_value_font, fake_afr)
         draw_fuel_level(screen, speed_label_font, speed_value_font, fake_fuel_level)
         draw_mileage(screen, speed_label_font, speed_value_font, fake_mileage)
