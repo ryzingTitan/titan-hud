@@ -2,8 +2,8 @@ import pygame
 
 from dashboard.configuration.colors import CYAN, MAGENTA
 from dashboard.configuration.screen_settings import (
+    CENTERED_CONTENT_Y,
     COLUMN_WIDTH,
-    CONTENT_Y,
     SPEED_HEIGHT,
 )
 
@@ -19,7 +19,7 @@ def draw_speedometer(
     speed_mph: float,
 ) -> None:
     x = COLUMN_WIDTH * _COLUMN_INDEX
-    rect = pygame.Rect(x, CONTENT_Y, COLUMN_WIDTH, SPEED_HEIGHT)
+    rect = pygame.Rect(x, CENTERED_CONTENT_Y, COLUMN_WIDTH, SPEED_HEIGHT)
 
     pygame.draw.rect(surface, pygame.Color(MAGENTA), rect, _BORDER_WIDTH)
 

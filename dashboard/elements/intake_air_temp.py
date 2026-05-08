@@ -2,8 +2,8 @@ import pygame
 
 from dashboard.configuration.colors import CYAN, MAGENTA
 from dashboard.configuration.screen_settings import (
+    CENTERED_CONTENT_Y,
     COLUMN_WIDTH,
-    CONTENT_Y,
     INTAKE_AIR_TEMP_HEIGHT,
 )
 
@@ -19,7 +19,7 @@ def draw_intake_air_temp(
     intake_air_temp_f: float,
 ) -> None:
     x = COLUMN_WIDTH * _COLUMN_INDEX
-    rect = pygame.Rect(x, CONTENT_Y, COLUMN_WIDTH, INTAKE_AIR_TEMP_HEIGHT)
+    rect = pygame.Rect(x, CENTERED_CONTENT_Y, COLUMN_WIDTH, INTAKE_AIR_TEMP_HEIGHT)
 
     pygame.draw.rect(surface, pygame.Color(MAGENTA), rect, _BORDER_WIDTH)
 
