@@ -27,10 +27,11 @@ from dashboard.elements.oil_temp import draw_oil_temp
 from dashboard.elements.shift_indicator import draw_shift_indicator
 from dashboard.elements.speedometer import draw_speedometer
 from dashboard.elements.tachometer import draw_tachometer
+from dashboard.elements.track_map import draw_track_map
 from dashboard.helpers.load_icons import load_icons
 
 _DIM_MAGENTA = (140, 0, 140)
-_COL0_PAGE_COUNT = 2
+_COL0_PAGE_COUNT = 3
 
 
 def _draw_page_dots(surface: pygame.Surface, current_page: int) -> None:
@@ -77,6 +78,7 @@ def main():
     fake_lap_delta = 0.342
     fake_lateral_g = 0.3
     fake_longitudinal_g = 0.5
+    fake_track_position = 0.0
     tc_active = True
     column_0_page = 0
 
@@ -98,6 +100,7 @@ def main():
                 column_0_page = (column_0_page - 1) % _COL0_PAGE_COUNT
 
         screen.fill(BACKGROUND)
+        fake_track_position = (fake_track_position + 1.0 / (FPS * 10)) % 1.0
         draw_tachometer(screen, rpm_font, fake_rpm, rpm_max, rpm_redline)
         draw_shift_indicator(screen, fake_rpm, shift_lights, pygame.time.get_ticks())
 
@@ -105,8 +108,10 @@ def main():
             draw_lap_timer(
                 screen, speed_label_font, speed_value_font, fake_lap_number, fake_lap_time_seconds, fake_lap_delta
             )
-        else:
+        elif column_0_page == 1:
             draw_gmeter(screen, speed_label_font, fake_lateral_g, fake_longitudinal_g)
+        else:
+            draw_track_map(screen, speed_label_font, fake_track_position)
         _draw_page_dots(screen, column_0_page)
 
         draw_afr(screen, speed_label_font, speed_value_font, fake_afr)
